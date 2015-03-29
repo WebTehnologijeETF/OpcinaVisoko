@@ -1,0 +1,193 @@
+@import url(http://fonts.googleapis.com/css?family=Lora);
+
+body {
+	background-color: #f2efef;
+	margin: 0 0 0 0;
+}
+
+#okvir {
+	background-color: #f2efef;
+	height: auto;
+	width: 70%;
+	margin: 0 15% 0 15%;
+	float: left;
+}
+
+#zaglavlje {
+	background-color: white;
+	height: 125px;
+	width: 100%;
+	margin: 0 auto;
+	text-align: center;
+	border-left: 1px solid lightgray;
+	border-right: 1px solid lightgray;
+}
+
+table, th, tr, td {
+	border: 1px dashed black;
+	padding: 4px;
+}
+
+#ispod_zaglavlja {
+	background-color: white;
+	margin-left: auto;
+	margin-right: auto;
+	float: left;
+	height: 60px;
+	width: 100%;
+	color: #1a7d3e;
+	line-height: normal;
+	font-size: 12pt;
+	font-family: "Lora";
+	border-left: 1px solid lightgray;
+	border-right: 1px solid lightgray;
+}
+
+#ispod_zaglavlja p {
+	margin: 0 auto;
+	text-align: center;
+}
+
+#link_kuci {
+	display: inline-block;
+	margin: 10px 0 10px 0;
+	height: auto;
+}
+
+#link_kuci a {
+	content: url(Visokogrb.png);
+	margin-top: 5px;
+	height: 100px;
+	width: auto;
+}
+
+#link_kuci a:hover {
+	opacity: 0.9;
+}
+
+#meni {
+	background-color: white;
+	border: 2px solid #1a7d3e;
+	width: 100%;
+	height: 40px;
+	line-height: 40px;
+	float: left;
+	text-align: center;
+	box-shadow: 0 2px 2px #888888;
+}
+
+#meni a {
+	display: inline-block;
+	margin-right: 10px;
+	height: 40px;
+	width: 20%;
+	line-height: 40px;
+	background-color: white;
+	font-family: "Lora";
+	color: #1a7d3e;
+	text-align: center;
+	font-size: 11pt;
+	text-decoration: none;
+	position: static;
+}
+
+#meni a:hover {
+	background-color: #1a7d3e;
+	color: white;
+}
+
+#naslov_stranice {
+	margin: 20px 0 0 0;
+	width: 100%;
+	height: 30px;
+	line-height: 30px;
+	background-color: #415895;
+	background-color: gray;
+	border: 1px solid white;
+	color: white;
+	float: left;
+	font-size: 16pt;
+	line-height: normal;
+	text-align: center;
+	font-family: "Lora";
+	vertical-align: middle;
+}
+
+#sadrzaj {
+	background-color: white;
+	height: auto;
+	width: 100%;
+	float: left;
+	font-family: "Lora";
+	color: #1a7d3e;
+	box-shadow: 0 5px 5px #888888;
+}
+
+#sadrzaj a {
+	color: #1a7d3e;
+	text-decoration: none;
+}
+
+#sadrzaj a:hover {
+	text-decoration: underline;
+}
+
+p {
+	margin-left: 10px;
+	margin-right: 10px;
+	text-align: justify;
+}
+
+.novost {
+	margin: 10px 10px 10px 10px;
+	padding-top: 1%;
+	float: left;
+	border: 1px solid lightgray;
+	font-family: "Lora";
+	text-align: justify;
+	border-bottom: 2px solid lightgray;
+	color: black;
+	height: auto;
+	width: auto;
+}
+
+.image {
+	content: url(yftm.jpg);
+	margin-left: 10px;
+	height: 200px;
+	width: auto;
+}
+
+.linkovi {
+	list-style-image: url(3.gif);
+}
+
+.naslov_novosti {
+	color: #1a7d3e;
+	font-family: "Arial";
+	text-indent: 1%;
+	line-height: normal;
+	margin: 0 auto;
+}
+
+.datum_vrijeme_novosti {
+	color: #c71b21;
+	font-family: "Lato";
+	font-size: 8pt;
+	text-indent: 1%;
+	line-height: 15px;
+	margin: 0 auto;
+}
+
+#dno {
+	width: 100%;
+	padding: 1px 0 1px 0;
+	height: auto;
+	background-color: #1a7d3e;
+	border: 1px solid #1a7d3e;
+	color: white;
+	text-align: center;
+	float: left;
+	font-family: "Lora";
+	font-size: 10pt;
+}
