@@ -10,15 +10,15 @@
 		<div id="okvir">
 			<div id="zaglavlje">
 				<div id="link_kuci">
-					<a href="index.html"></a>
+					<a href="index.php"></a>
 				</div>
 			</div>
 			<div id="ispod_zaglavlja"><p><b>Zvanične web stranice Općine Visoko</b><br /><i>The Official Website of the Municipality of Visoko</i></p></div>
 			<div id="meni">
-				<a href="index.html"><div id="naslovna">Vijesti</div></a>
-				<a href="tel-brojevi.html"><div id="tel-brojevi">Tel. brojevi</div></a>
-				<a href="linkovi.html"><div id="linkovi">Linkovi</div></a>
-				<a href="kontakt.php"><div id="kontakt">Kontakt</div></a>
+				<a href="index.php">Vijesti</a>
+				<a href="tel-brojevi.php">Tel. brojevi</a>
+				<a href="linkovi.php">Linkovi</a>
+				<a href="kontakt.php">Kontakt</a>
 			</div>
 			<div id="naslov_stranice">Važni telefonski brojevi</div>
 			<div id="sadrzaj">

@@ -115,8 +115,9 @@ table, th, tr, td {
 
 #sadrzaj {
 	background-color: white;
+	padding: 10px 10px 10px 10px;
 	height: auto;
-	width: 100%;
+	width: auto;
 	float: left;
 	font-family: "Lora";
 	color: #1a7d3e;
@@ -132,30 +133,16 @@ table, th, tr, td {
 	text-decoration: underline;
 }
 
-p {
-	margin-left: 10px;
-	margin-right: 10px;
-	text-align: justify;
-}
-
 .novost {
-	margin: 10px 10px 10px 10px;
-	padding-top: 1%;
+	margin: 10px 0 10px 0;
+	padding: 10px 10px 10px 10px;
+	display: table;
 	float: left;
 	border: 1px solid lightgray;
 	font-family: "Lora";
-	text-align: justify;
 	border-bottom: 2px solid lightgray;
 	color: black;
 	height: auto;
-	width: auto;
-}
-
-.image {
-	content: url(yftm.jpg);
-	margin-left: 10px;
-	height: 200px;
-	width: auto;
 }
 
 .linkovi {
@@ -165,7 +152,6 @@ p {
 .naslov_novosti {
 	color: #1a7d3e;
 	font-family: "Arial";
-	text-indent: 1%;
 	line-height: normal;
 	margin: 0 auto;
 }
@@ -174,9 +160,23 @@ p {
 	color: #c71b21;
 	font-family: "Lato";
 	font-size: 8pt;
-	text-indent: 1%;
-	line-height: 15px;
-	margin: 0 auto;
+	line-height: normal;
+}
+
+.tekst-novosti {
+	margin: 10px 0 0 0;
+}
+
+.news-text {
+	float: left;
+	width: auto;
+}
+
+.news-image {
+	margin-left: 20px;
+	width: 40%;
+	height: auto;
+	float: left;
 }
 
 #dno {
