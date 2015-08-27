@@ -1,0 +1,24 @@
+<div class="novost">
+	<div class="news-text">
+		<small class="datum_vrijeme_novosti"></small>
+		<h2 class="naslov_novosti"></h2>
+		<p class="tekst-novosti"></p>
+		<p class="detaljnije"></p>
+	</div>
+	<div class="news-image"></div>
+</div>
+<hr/>
+<h4 class="broj-komentara-nula"></h4>
+<b><a href="blank" class="broj-komentara-x" onclick="prikaziKomentare(); return false;"></a></b>
+<div class="komentari" id="komentari" style="display:none"></div>
+<h4><br>Pošalji komentar:</h4>
+<form id="forma-slanje-komentara">
+	<label for="ime-komentatora">Ime:</label><br>
+	<input type="text" id="ime-komentatora" name="ime-komentatora"><br>
+	<label for="email-komentatora">Email:</label><br>
+	<input type="text" id="email-komentatora" name="email-komentatora"><br>
+	<label for="komentar-komentatora">Komentar:</label><br>
+	<textarea name="komentar-komentatora" id="komentar-komentatora" cols="40" rows="10"></textarea><br>
+	<input type="hidden" id="id-vijesti" name="id-vijesti">
+	<input type="button" onclick="posaljiKomentar()" value="Pošalji">
+</form>

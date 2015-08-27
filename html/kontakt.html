@@ -1,0 +1,53 @@
+<form id="forma" name="forma" action="" method="post" onsubmit="return validacijaForme();">
+	
+	
+					<div class="stavka_forme">
+						<label for="imeiprezime">Ime i prezime: <label class="obavezno">*</label></label><br>
+						<input type="text" id="imeiprezime" name="imeiprezime" size="30" onblur="provjeriImeIPrezime()">
+						<label for="imeiprezime" id="greska1" class="greska"></label>
+					</div>
+					
+					
+					<div class="stavka_forme">
+						<label for="email">Email: <label class="obavezno">*</label></label><br>
+						<input type="text" id="email" name="email" size="30" onblur="provjeriEmail()">
+						<label for="email" id="greska2" class="greska"></label>
+					</div>
+					
+					
+					<div class="stavka_forme">
+						<label for="email_potvrda">Potvrdi email: <label class="obavezno">*</label></label><br>
+						<input type="text" id="email_potvrda" name="email_potvrda" size="30" onblur="crossValidirajEmail()">
+						<label for="email_potvrda" id="greska4" class="greska"></label>
+					</div>
+					
+					<!-- ===== MJESTO INPUT ===== -->
+					<div class="stavka_forme">
+						<label for="mjesto">Mjesto: <label class="obavezno">*</label></label><br>
+						<input type="text" id="mjesto" name="mjesto" size="30" onblur="validacijaMjestoOpcina()">
+						<label for="mjesto" id="greska5" class="greska"></label>
+					</div>
+					
+					<!-- ===== OPCINA INPUT ===== -->
+					<div class="stavka_forme">
+						<label for="opcina">Općina: <label class="obavezno">*</label></label><br>
+						<input type="text" id="opcina" name="opcina" size="30" onblur="validacijaMjestoOpcina()">
+						<label for="opcina" id="greska6" class="greska"></label>
+					</div>
+					
+					
+					<div class="stavka_forme">
+						<label for="telefon">Telefon:</label><br>
+						<input type="text" id="telefon" name="telefon" size="30">
+					</div>
+					
+					
+					<div class="stavka_forme">
+						<label for="komentar">Komentar: <label class="obavezno">*</label></label><br>
+						<textarea id="komentar" name="komentar" rows="10" cols="40" onblur="provjeriKomentar()"></textarea>
+						<label for="email" id="greska3" class="greska"></label>
+					</div>
+					
+					
+					<input type="submit" id="posalji" name="posalji" value="Pošalji">
+</form>
