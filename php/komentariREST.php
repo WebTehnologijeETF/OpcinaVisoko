@@ -6,7 +6,7 @@
 		header('AccessControlAllowOrigin: *');
 	}
 	function rest_get($request, $data) {
-		$connection = new PDO("mysql:dbname=wt-opcinavisoko;host=localhost;charset=utf8", "opcina", "pass");
+		$connection = new PDO("mysql:dbname=opcinavisoko;host=opcinavisoko-wt2014.rhcloud.com;charset=utf8", "admin2qTw1WZ", "j__QSRtgvbDR");
 		$connection->exec("set names utf8");
 		if (isset($data['id'])) {
 			$commentsquery = $connection->prepare("SELECT * FROM komentari WHERE vijest=?");
@@ -23,7 +23,7 @@
 	}
 	function rest_post($request, $data) {
 		if (isset($_POST['komentar']) && isset($_POST['vijest'])) {
-			$connection = new PDO("mysql:dbname=wt-opcinavisoko;host=localhost;charset=utf8", "opcina", "pass");
+			$connection = new PDO("mysql:dbname=opcinavisoko;host=opcinavisoko-wt2014.rhcloud.com;charset=utf8", "admin2qTw1WZ", "j__QSRtgvbDR");
 			if (isset($_SESSION['username'])) {
 				$query = $connection->prepare("SELECT * FROM korisnici WHERE korisnik=?");
 			   	$query->execute(array($_SESSION['username']));
@@ -39,7 +39,7 @@
 	}
 	function rest_delete($request, $data) {
 		if (isset($data['id'])) {
-			$connection = new PDO("mysql:dbname=wt-opcinavisoko;host=localhost;charset=utf8", "opcina", "pass");
+			$connection = new PDO("mysql:dbname=opcinavisoko;host=opcinavisoko-wt2014.rhcloud.com;charset=utf8", "admin2qTw1WZ", "j__QSRtgvbDR");
 			$deletedcomment = $connection->prepare("DELETE FROM komentari WHERE id=?");
 			$deletedcomment->execute(array($data['id']));
 		}

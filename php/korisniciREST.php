@@ -5,7 +5,7 @@
 		header('AccessControlAllowOrigin: *');
 	}
 	function rest_get($request, $data) {
-		$connection = new PDO("mysql:dbname=wt-opcinavisoko;host=localhost;charset=utf8", "opcina", "pass");
+		$connection = new PDO("mysql:dbname=opcinavisoko;host=opcinavisoko-wt2014.rhcloud.com;charset=utf8", "admin2qTw1WZ", "j__QSRtgvbDR");
 		$connection->exec("set names utf8");
 		if (isset($data['id'])) {
 			$usersquery = $connection->prepare("SELECT * FROM korisnici WHERE id=?");
@@ -21,12 +21,12 @@
 		}
 	}
 	function rest_post($request, $data) {
-		$connection = new PDO("mysql:dbname=wt-opcinavisoko;host=localhost;charset=utf8", "opcina", "pass");
+		$connection = new PDO("mysql:dbname=opcinavisoko;host=opcinavisoko-wt2014.rhcloud.com;charset=utf8", "admin2qTw1WZ", "j__QSRtgvbDR");
 		$newuser = $connection->prepare("INSERT INTO korisnici SET korisnik=?, admin=?, lozinka=?, email=?, imeprezime=?");
 		$newuser->execute(array($data['korisnik'], $data['admin'], md5($data['lozinka']), $data['email'], $data['imeiprezime']));
 	}
 	function rest_delete($request, $data) {
-		$connection = new PDO("mysql:dbname=wt-opcinavisoko;host=localhost;charset=utf8", "opcina", "pass");
+		$connection = new PDO("mysql:dbname=opcinavisoko;host=opcinavisoko-wt2014.rhcloud.com;charset=utf8", "admin2qTw1WZ", "j__QSRtgvbDR");
 		$userquery = $connection->prepare("SELECT admin FROM korisnici WHERE id=?");
 		$userquery->execute(array($data['id']));
 		$result = $userquery->fetchColumn();
@@ -45,7 +45,7 @@
 		}
 	}
 	function rest_put($request, $data) {
-		$connection = new PDO("mysql:dbname=wt-opcinavisoko;host=localhost;charset=utf8", "opcina", "pass");
+		$connection = new PDO("mysql:dbname=opcinavisoko;host=opcinavisoko-wt2014.rhcloud.com;charset=utf8", "admin2qTw1WZ", "j__QSRtgvbDR");
 		$updateduser = $connection->prepare("UPDATE korisnici SET admin=?, korisnik=?, lozinka=?, email=?, imeprezime=? WHERE id=?");
 		$updateduser->execute(array($data['admin'], $data['korisnik'], md5($data['lozinka']), $data['email'], $data['imeiprezime'], $data['id']));
 	}

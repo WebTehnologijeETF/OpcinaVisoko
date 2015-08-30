@@ -57,7 +57,8 @@
 								<input type="submit" name="odjava" value="ODJAVI SE">
 							</form>
 					  </div>';
-				$connection = new PDO("mysql:dbname=wt-opcinavisoko;host=localhost;charset=utf8", "opcina", "pass");
+					  //	 $connection = new PDO("mysql:dbname=opcinavisoko;host=opcinavisoko-wt2014.rhcloud.com;charset=utf8", "admin2qTw1WZ", "j__QSRtgvbDR");
+				$connection = new PDO("mysql:dbname=opcinavisoko;host=opcinavisoko-wt2014.rhcloud.com;charset=utf8", "admin2qTw1WZ", "j__QSRtgvbDR");
 			    $query = $connection->prepare("SELECT admin FROM korisnici WHERE korisnik=?");
 			   	$query->execute(array($_SESSION['username']));
 			    $result = $query->fetchColumn();
@@ -66,7 +67,7 @@
 				}
 			}
 			else if (isset($_REQUEST['korisnickoime']) && isset($_REQUEST['lozinka'])) {
-				$connection = new PDO("mysql:dbname=wt-opcinavisoko;host=localhost;charset=utf8", "opcina", "pass");
+				$connection = new PDO("mysql:dbname=opcinavisoko;host=opcinavisoko-wt2014.rhcloud.com;charset=utf8", "admin2qTw1WZ", "j__QSRtgvbDR");
 			    $query = $connection->prepare("SELECT korisnik, lozinka FROM korisnici WHERE korisnik=?");
 			   	$query->execute(array($_REQUEST['korisnickoime']));
 			    $match = $query->fetch(PDO::FETCH_ASSOC);
@@ -92,7 +93,7 @@
 				}
 			}
 			else if (isset($_REQUEST['korisnickoimereg']) && isset($_REQUEST['lozinkareg']) && isset($_REQUEST['imeiprezimereg']) && isset($_REQUEST['emailreg'])) {
-				$connection = new PDO("mysql:dbname=wt-opcinavisoko;host=localhost;charset=utf8", "opcina", "pass");
+				$connection = new PDO("mysql:dbname=opcinavisoko;host=opcinavisoko-wt2014.rhcloud.com;charset=utf8", "admin2qTw1WZ", "j__QSRtgvbDR");
 			    $query = $connection->prepare("SELECT COUNT(korisnik) FROM korisnici WHERE korisnik=?");
 				$query->execute(array($_REQUEST['korisnickoimereg']));
 				$result = $query->fetchColumn();
