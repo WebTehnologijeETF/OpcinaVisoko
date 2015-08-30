@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 27, 2015 at 11:09 PM
+-- Generation Time: Aug 30, 2015 at 06:03 AM
 -- Server version: 5.6.17
 -- PHP Version: 5.5.12
 
@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS `komentari` (
   PRIMARY KEY (`id`),
   KEY `vijest` (`vijest`),
   KEY `korisnik` (`korisnik`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_slovenian_ci AUTO_INCREMENT=93 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_slovenian_ci AUTO_INCREMENT=96 ;
 
 --
 -- Dumping data for table `komentari`
@@ -61,7 +61,10 @@ INSERT INTO `komentari` (`id`, `ime`, `email`, `komentar`, `vrijeme`, `vijest`, 
 (89, NULL, NULL, 'Svaka čast, momci!', NULL, 2, NULL),
 (90, 'rasim', 'amir_rasim@yahoo.com', 'Bravooo!!!', '2015-08-22 16:58:43', 2, 12),
 (91, 'amir', 'asabanovic3@gmail.com', 'Šaaampioni!!! Šaaampioni!!!', '2015-08-22 17:02:38', 2, 10),
-(92, NULL, NULL, 'Anonimno, hehe.', NULL, 4, NULL);
+(92, NULL, NULL, 'Anonimno, hehe.', NULL, 4, NULL),
+(93, NULL, NULL, 'xasxasx', NULL, 4, NULL),
+(94, NULL, NULL, 'HAha', '2015-08-29 21:59:39', 4, NULL),
+(95, NULL, NULL, 'Hehehe.', '2015-08-30 00:07:10', 2, NULL);
 
 -- --------------------------------------------------------
 
@@ -85,8 +88,8 @@ CREATE TABLE IF NOT EXISTS `korisnici` (
 --
 
 INSERT INTO `korisnici` (`id`, `korisnik`, `admin`, `lozinka`, `email`, `imeprezime`) VALUES
-(1, 'admin', 1, '21232f297a57a5a743894a0e4a801fc3', 'saban@live.com', 'Amir Sabanovic'),
-(10, 'amir', 0, '63eefbd45d89e8c91f24b609f7539942', 'asabanovic3@gmail.com', 'Amir Sabanovic'),
+(1, 'admin', 1, '63eefbd45d89e8c91f24b609f7539942', 'saban@live.com', 'Amir Sabanovic'),
+(10, 'amir', 0, '21232f297a57a5a743894a0e4a801fc3', 'asabanovic3@gmail.com', 'Amir Sabanovic'),
 (12, 'rasim', 0, '351ac251388588c9574adf62a1900efb', 'amir_rasim@yahoo.com', 'Rasim Sabanovic');
 
 -- --------------------------------------------------------

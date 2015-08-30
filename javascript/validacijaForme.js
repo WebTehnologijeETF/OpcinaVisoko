@@ -86,3 +86,56 @@ function provjeriKomentar() {
 	greska3.innerHTML = "";
 	return true;
 }
+
+function provjeriKontaktFormu() {
+	var ajax = new XMLHttpRequest();
+	ajax.onreadystatechange = function() {
+		if (ajax.readyState == 4 && ajax.status == 200) {
+			var greske = JSON.parse(ajax.responseText);
+			var validnost = 1;
+			if (greske["greska1"] == "1") {
+				document.getElementById("greska1").innerHTML = "<img src='slike/error-icon.png' alt='Greška!'> Ime i prezime nije validno!";
+				validnost = 0;
+			}
+			if (greske["greska2"] == "1") {
+				document.getElementById("greska2").innerHTML = "<img src='slike/error-icon.png' alt='Greška!'> Email nije validan!";
+				validnost = 0;
+			}
+			if (greske["greska3"] == "1") {
+				document.getElementById("greska3").innerHTML = "<img src='slike/error-icon.png' alt='Greška!'> Email adrese se ne slažu!";
+				validnost = 0;
+			}
+			if (greske["greska4"] == "1") {
+				document.getElementById("greska4").innerHTML = "<img src='slike/error-icon.png' alt='Greška!'> Polje za komentar je prazno!";
+				validnost = 0;
+			}
+			if (validnost == 1) {
+				document.getElementById("provjera_forme").innerHTML = "<h3>Provjerite da li ste ispravno popunili kontakt formu:</h3><b>Ime i prezime:</b> " + ime + "<br><b>Email:</b> " + email + "<br><b>Telefon:</b> " + telefon + "<br><b>Komentar:</b><br><textarea readonly rows='10' cols='40'>" + komentar + "</textarea><br><br>Da li ste sigurni da želite poslati ove podatke?";
+				document.getElementById("provjera_forme").innerHTML += "<form action='kontakt.php' method='post' onsubmit='posaljiMail(); return false;'><input type='hidden' id='message-hidden' name='message-hidden' value='IME I PREZIME: " + ime + "; EMAIL: " + email + "; TELEFON: " + telefon + "; KOMENTAR: " + komentar + "'><input type='hidden' id='reply-to' name='reply-to' value='" + email + "'><input type='submit' name='siguransam' value='Siguran sam'></form>";
+			}
+			document.getElementById("suplja").innerHTML = "<hr><h3>Ako ste pogrešno popunili formu, možete ispod prepraviti unesene podatke:</h3>";
+		}
+	}
+	var ime = document.getElementById("imeiprezime").value;
+	var email = document.getElementById("email").value;
+	var emailp = document.getElementById("email_potvrda").value;
+	var telefon = document.getElementById("telefon").value;
+	var komentar = document.getElementById("komentar").value;
+	ajax.open("POST", "php/validacija.php", true);
+	ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	ajax.send("ime=" + ime + "&email=" + email + "&emailp=" + emailp + "&komentar=" + komentar);
+}
+
+function posaljiMail() {
+	var ajax = new XMLHttpRequest();
+	ajax.onreadystatechange = function() {
+		if (ajax.readyState == 4 && ajax.status == 200) {
+			document.getElementById("provjera_forme").innerHTML = "<div id='zahvala'><h2>Zahvaljujemo se što ste nas kontaktirali.</h2></div>";
+		}
+	}
+	var message = document.getElementById("message-hidden").value;
+	var replyto = document.getElementById("reply-to").value;
+	ajax.open("POST", "php/posaljiMail.php", true);
+	ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	ajax.send("messagehidden=" + message + "&replyto=" + replyto);
+}

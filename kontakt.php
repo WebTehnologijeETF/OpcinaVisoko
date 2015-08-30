@@ -1,3 +1,7 @@
+<?php
+	session_start();
+	session_set_cookie_params(3600);
+?>
 <!DOCTYPE HTML>
 <html>
 	<head>
@@ -5,25 +9,30 @@
 		<link rel="stylesheet" type="text/css" href="stil.css">
 		<link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
 		<title>Općina Visoko</title>
-		<script src="CRUD.js" type="text/javascript"></script>
-		<script src="dropDownMenu.js" type="text/javascript"></script>
-		<script src="otvoriDetaljnije.js" type="text/javascript"></script>
-		<script src="SPANavigation.js" type="text/javascript"></script>
-		<script src="validacijaForme.js" type="text/javascript"></script>
-		<script src="zamgerProizvodi.js" type="text/javascript"></script>
+		<script src="javascript/CRUD.js" type="text/javascript"></script>
+		<script src="javascript/dropDownMenu.js" type="text/javascript"></script>
+		<script src="javascript/SPA.js" type="text/javascript"></script>
+		<script src="javascript/validacijaForme.js" type="text/javascript"></script>
+		<script src="javascript/zamgerProizvodi.js" type="text/javascript"></script>
 	</head>
-	<body onload="hideDropDownMenu(); hideLoginForm();" onhashchange="replaceContent()">
-		
+	<body onload="hideDropDownMenu(); hideLoginForm(); hideRegisterForm();" onhashchange="replaceContent()">
 		
 		<?php
-			session_start();
 			$prijava = '<div id="prijava">
 							<input type="button" id="dugmePrijava" value="PRIJAVA" onclick="showLoginForm()">
-							<input type="button" id="dugmeRegistracija" value="REGISTRACIJA" onclick="showRegistrationForm()"><br><hr>
+							<input type="button" id="dugmeRegistracija" value="REGISTRACIJA" onclick="showRegisterForm()"><br><hr>
 							<form method="POST" action="index.php" id="prijavaforma">
 								<label for="korisnickoime">KORISNIČKO IME: </label><input type="text" id="korisnickoime" name="korisnickoime">
-								<label for="korisnickoime">LOZINKA: </label><input type="text" id="lozinka" name="lozinka">
+								<label for="lozinka">LOZINKA: </label><input type="password" id="lozinka" name="lozinka">
 								<input type="submit" value="PRIJAVI SE">
+								<a href="blank" onclick="">Zaboravio sam šifru</a>
+							</form>
+							<form method="POST" action="index.php" id="regforma">
+								<label for="korisnickoimereg">KORISNIČKO IME: </label><input type="text" id="korisnickoimereg" name="korisnickoimereg"><br>
+								<label for="lozinkareg">LOZINKA: </label><input type="password" id="lozinkareg" name="lozinkareg"><br>
+								<label for="imeiprezimereg">IME I PREZIME: </label><input type="text" id="imeiprezimereg" name="imeiprezimereg"><br>
+								<label for="emailreg">EMAIL: </label><input type="text" id="emailreg" name="emailreg"><br>
+								<input type="submit" value="REGISTRUJ SE">
 							</form>
 						</div>';
 			$panellink = '<div id="panel-link"><a href="#panel" onclick="showPanel(); return false;">Prikaži administratorski panel</a></div>';
@@ -43,11 +52,17 @@
 			if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
 				echo '<div id="prijava">
 							<form method="POST" action="index.php" id="odjavaforma">
-								Prijavljeni ste kao: <b>'.$_SESSION['username'].'</b>
+								Prijavljeni ste kao: <b>'.htmlspecialchars($_SESSION['username'], ENT_QUOTES, 'UTF-8').'</b>
 								<input type="submit" name="odjava" value="ODJAVI SE">
 							</form>
 					  </div>';
-				echo $panel;
+				$connection = new PDO("mysql:dbname=wt-opcinavisoko;host=localhost;charset=utf8", "opcina", "pass");
+			    $query = $connection->prepare("SELECT admin FROM korisnici WHERE korisnik=?");
+			   	$query->execute(array($_SESSION['username']));
+			    $result = $query->fetchColumn();
+				if ($result == 1) {
+					echo $panel;
+				}
 			}
 			else if (isset($_REQUEST['korisnickoime']) && isset($_REQUEST['lozinka'])) {
 				$connection = new PDO("mysql:dbname=wt-opcinavisoko;host=localhost;charset=utf8", "opcina", "pass");
@@ -63,17 +78,38 @@
 				    $_SESSION['password'] = $_REQUEST['lozinka'];
 					echo '<div id="prijava">
 								<form method="POST" action="index.php" id="odjavaforma">
-									Prijavljeni ste kao: <b>'.$_SESSION['username'].'</b>
+									Prijavljeni ste kao: <b>'.htmlspecialchars($_SESSION['username'], ENT_QUOTES, 'UTF-8').'</b>
 									<input type="submit" name="odjava" value="ODJAVI SE">
 								</form>
 					  		</div>';
-					echo $panel;
+					$query = $connection->prepare("SELECT admin FROM korisnici WHERE korisnik=?");
+					$query->execute(array($_SESSION['username']));
+					$result = $query->fetchColumn();
+					if ($result == 1) {
+						echo $panel;
+					}
+				}
+			}
+			else if (isset($_REQUEST['korisnickoimereg']) && isset($_REQUEST['lozinkareg']) && isset($_REQUEST['imeiprezimereg']) && isset($_REQUEST['emailreg'])) {
+				$connection = new PDO("mysql:dbname=wt-opcinavisoko;host=localhost;charset=utf8", "opcina", "pass");
+			    $query = $connection->prepare("SELECT COUNT(korisnik) FROM korisnici WHERE korisnik=?");
+				$query->execute(array($_REQUEST['korisnickoimereg']));
+				$result = $query->fetchColumn();
+				if ($result == 1) {
+					echo '<div id="greskaprijava"><b>Greška:</b> Korisnik sa takvim imenom već postoji!</div>';
+					echo $prijava;
+				}
+				else {
+					$newuser = $connection->prepare("INSERT INTO korisnici SET korisnik=?, admin=?, lozinka=?, email=?, imeprezime=?");
+					$newuser->execute(array($_REQUEST['korisnickoimereg'], '0', md5($_REQUEST['lozinkareg']), $_REQUEST['emailreg'], $_REQUEST['imeiprezimereg']));
+					echo '<div id="uspjesnaprijava"><b>Uspjeh:</b> Prijavite se sa registrovanim podacima.</div>';
+					echo $prijava;
 				}
 			}
 			else {
 				echo $prijava;
 			}
-		?>
+?>
 		
 		
 		<div id="zaglavlje">
@@ -136,96 +172,17 @@
 		</nav>
 		<div id="sadrzaj">
 
-<?php
-						$one = $two = $three = $four = true;
-						
-						if (isset($_REQUEST['siguransam'])) {
-							require("phpmailer/class.phpmailer.php");
-						    $mail = new PHPMailer();
-						    $mail->Username = "wtopcinavisoko@gmail.com";
-						    $mail->Password = "wtopcinavisoko123"; 
-						    $mail->AddAddress("asabanovic3@gmail.com");
-							$mail->AddReplyTo(htmlentities($_REQUEST['reply-to'], ENT_QUOTES));
-							//$mail->AddCC('vljubovic@etf.unsa.ba', 'Vedran Ljubović');
-						    $mail->FromName = "WT Opcina Visoko";
-						    $mail->Subject = "Podaci sa kontakt forme - Općina Visoko";
-						    $mail->Body = html_entity_decode($_REQUEST['message-hidden'], ENT_NOQUOTES, 'UTF-8');
-							$mail->CharSet = "UTF-8";
-						    $mail->Host = "ssl://smtp.gmail.com";
-						    $mail->Port = 465;
-						    $mail->IsSMTP();
-						    $mail->SMTPAuth = true;
-						    $mail->From = $mail->Username;
-						    if (!$mail->Send())
-						        echo "Greška pri slanju emaila: ".$mail->ErrorInfo;
-						    else {
-								echo "<div id='zahvala'><h2>Zahvaljujemo se što ste nas kontaktirali.</h2></div>";
-							}
-						}
-						
-						else {
-							$ip = $email = $email_p = $telefon = $kom = "";
-							if (isset($_REQUEST['posalji'])) {
-								$ip = htmlentities($_REQUEST['imeiprezime'], ENT_QUOTES);
-								$email = htmlentities($_REQUEST['email'], ENT_QUOTES);
-								$emailRegEx = '/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i';
-								$email_p = htmlentities($_REQUEST['email_potvrda'], ENT_QUOTES);
-								$telefon = htmlentities($_REQUEST['telefon'], ENT_QUOTES);
-								$kom = htmlentities($_REQUEST['komentar'], ENT_QUOTES);
-								
-								if (strlen($ip) < 5 || strlen($ip) > 50) {
-									$one = false;
-								}
-								if (!preg_match($emailRegEx, $email)) {
-									$two = false;
-								}
-								if ($email_p != $email) {
-									$three = false;
-								}
-								if (strlen($kom) == 0) {
-									$four = false;
-								}
-?>
-								<div id="provjera_forme">
-<?php
-								if ($one == true && $two == true && $three == true && $four == true) {
-									echo '<h3>Provjerite da li ste ispravno popunili kontakt formu:</h3>';
-									echo '<b>Ime i prezime:</b> '.$ip.'<br>';
-									echo '<b>Email:</b> '.$email.'<br>';
-									echo '<b>Telefon:</b> '.$telefon.'<br>';
-									echo '<b>Komentar:</b><br><textarea readonly rows="10" cols="40">'.$kom.'</textarea><br>';
-									echo '<br>Da li ste sigurni da želite poslati ove podatke?';
-?>
-									<form action="kontakt.php" method="post">
-										<input type="hidden" id="message-hidden" name="message-hidden" value="<?=
-											'IME I PREZIME: '.$ip.'; EMAIL: '.$email.'; TELEFON: '.$telefon.'; KOMENTAR: '.$kom
-										?>">
-										<input type="hidden" id="reply-to" name="reply-to" value="<?= $email ?>">
-										<input type="submit"" name="siguransam" value="Siguran sam">
-									</form>
-<?php
-								}
-?>
-								</div>
-<?php
-								echo '<hr><h3>Ako ste pogrešno popunili formu, možete ispod prepraviti unesene podatke:</h3>';
-							}
-						}
-?>
-			<form id="forma" name="forma" action="kontakt.php" method="post">
+			<div id="provjera_forme"></div>
+			<div id="suplja"></div>
+			<form id="forma" name="forma" action="kontakt.php" method="post" onsubmit="provjeriKontaktFormu(); return false;">
 					
 					
 					<div class="stavka_forme">
 						<label for="imeiprezime">Ime i prezime: <label class="obavezno">*</label></label><br>
 						<input type="text" id="imeiprezime" name="imeiprezime" size="30" value="<?php 
 				          if (isset($_REQUEST['imeiprezime'])) 
-				            print htmlentities($_REQUEST['imeiprezime'], ENT_QUOTES) ?>" onblur="provjeriImeIPrezime()">
-						<label for="imeiprezime" id="greska1" class="greska">
-							<?php 
-								if ($one == false) {
-									echo '<img src="slike/error-icon.png" alt="Upozorenje!"> Ime i prezime nije validno!';
-								}
-							?></label>
+				            print htmlentities($_REQUEST['imeiprezime'], ENT_QUOTES) ?>">
+						<label for="imeiprezime" id="greska1" class="greska"></label>
 					</div>
 					
 					
@@ -233,13 +190,8 @@
 						<label for="email">Email: <label class="obavezno">*</label></label><br>
 						<input type="text" id="email" name="email" size="30" value="<?php 
 				          if (isset($_REQUEST['email'])) 
-				            print htmlentities($_REQUEST['email'], ENT_QUOTES) ?>" onblur="provjeriEmail()">
-						<label for="email" id="greska2" class="greska">
-							<?php 
-								if ($two == false) {
-									echo '<img src="slike/error-icon.png" alt="Upozorenje!"> Email nije validan!';
-								}
-							?></label>
+				            print htmlentities($_REQUEST['email'], ENT_QUOTES) ?>">
+						<label for="email" id="greska2" class="greska"></label>
 					</div>
 					
 					
@@ -247,32 +199,8 @@
 						<label for="email_potvrda">Potvrdi email: <label class="obavezno">*</label></label><br>
 						<input type="text" id="email_potvrda" name="email_potvrda" size="30" value="<?php 
 				          if (isset($_REQUEST['email_potvrda'])) 
-				            print htmlentities($_REQUEST['email_potvrda'], ENT_QUOTES) ?>" onblur="crossValidirajEmail()">
-						<label for="email_potvrda" id="greska4" class="greska">
-							<?php 
-								if ($three == false) {
-									echo '<img src="slike/error-icon.png" alt="Upozorenje!"> Email adrese se ne slažu!';
-								}
-							?>
-						</label>
-					</div>
-					
-					<!-- ===== MJESTO INPUT ===== -->
-					<div class="stavka_forme">
-						<label for="mjesto">Mjesto: <label class="obavezno">*</label></label><br>
-						<input type="text" id="mjesto" name="mjesto" size="30" value="<?php 
-				          if (isset($_REQUEST['mjesto'])) 
-				            print htmlentities($_REQUEST['mjesto'], ENT_QUOTES) ?>" onblur="validacijaMjestoOpcina()">
-						<label for="mjesto" id="greska5" class="greska"></label>
-					</div>
-					
-					<!-- ===== OPCINA INPUT ===== -->
-					<div class="stavka_forme">
-						<label for="opcina">Općina: <label class="obavezno">*</label></label><br>
-						<input type="text" id="opcina" name="opcina" size="30" value="<?php 
-				          if (isset($_REQUEST['opcina'])) 
-				            print htmlentities($_REQUEST['opcina'], ENT_QUOTES) ?>" onblur="validacijaMjestoOpcina()">
-						<label for="opcina" id="greska6" class="greska"></label>
+				            print htmlentities($_REQUEST['email_potvrda'], ENT_QUOTES) ?>">
+						<label for="email_potvrda" id="greska3" class="greska"></label>
 					</div>
 					
 					
@@ -286,18 +214,14 @@
 					
 					<div class="stavka_forme">
 						<label for="komentar">Komentar: <label class="obavezno">*</label></label><br>
-						<textarea id="komentar" name="komentar" rows="10" cols="40" onblur="provjeriKomentar()"><?php if (isset($_REQUEST['komentar'])) print htmlentities($_REQUEST['komentar'], ENT_QUOTES) ?></textarea>
-						<label for="email" id="greska3" class="greska">
-							<?php 
-								if ($four == false) {
-									echo '<img src="slike/error-icon.png" alt="Upozorenje!"> Polje za komentar je prazno!';
-								}
-							?>
-						</label>
+						<textarea id="komentar" name="komentar" rows="10" cols="40"><?php if (isset($_REQUEST['komentar'])) print htmlentities($_REQUEST['komentar'], ENT_QUOTES) ?></textarea>
+						<label for="komentar" id="greska4" class="greska"></label>
 					</div>
 					
 					
 					<input type="submit" id="posalji" name="posalji" value="Pošalji">
+			
+			
 			</form>
 
 </div>

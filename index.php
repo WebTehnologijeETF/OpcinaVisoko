@@ -9,7 +9,6 @@
 		<link rel="stylesheet" type="text/css" href="stil.css">
 		<link href="favicon.ico" rel="shortcut icon" type="image/x-icon" />
 		<title>Općina Visoko</title>
-		<script src="javascript/otvoriDetaljnije.js" type="text/javascript"></script>
 		<script src="javascript/dropDownMenu.js" type="text/javascript"></script>
 		<script src="javascript/SPA.js" type="text/javascript"></script>
 		<script src="javascript/validacijaForme.js" type="text/javascript"></script>
@@ -27,6 +26,7 @@
 								<label for="korisnickoime">KORISNIČKO IME: </label><input type="text" id="korisnickoime" name="korisnickoime">
 								<label for="lozinka">LOZINKA: </label><input type="password" id="lozinka" name="lozinka">
 								<input type="submit" value="PRIJAVI SE">
+								<a href="blank" onclick="posaljiLink(); return false;">Zaboravio sam šifru</a> <i>(Unesite korisničko ime)</i>
 							</form>
 							<form method="POST" action="index.php" id="regforma">
 								<label for="korisnickoimereg">KORISNIČKO IME: </label><input type="text" id="korisnickoimereg" name="korisnickoimereg"><br>
@@ -50,24 +50,10 @@
 			if (isset($_REQUEST['odjava'])) {
 				session_unset();
 			}
-			/*if (isset($_POST['komentar-komentatora']) && isset($_POST['id-vijesti'])) {
-				$connection = new PDO("mysql:dbname=wt-opcinavisoko;host=localhost;charset=utf8", "opcina", "pass");
-				if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
-					$query = $connection->prepare("SELECT * FROM korisnici WHERE korisnik=?");
-			   		$query->execute(array($_SESSION['username']));
-					$user = $query->fetch(PDO::FETCH_ASSOC);
-					$newcomment = $connection->prepare("INSERT INTO komentari SET ime=?, email=?, komentar=?, vrijeme=?, vijest=?, korisnik=?");
-					$newcomment->execute(array($user['korisnik'], $user['email'], $_POST['komentar-komentatora'], date("Y-m-d H:i:s"), $_POST['id-vijesti'], $user['id']));
-				}
-				else {
-					$newcomment = $connection->prepare("INSERT INTO komentari SET komentar=?, vijest=?");
-					$newcomment->execute(array($_POST['komentar-komentatora'], $_POST['id-vijesti']));
-				}
-			}*/
 			if (isset($_SESSION['username']) && isset($_SESSION['password'])) {
 				echo '<div id="prijava">
 							<form method="POST" action="index.php" id="odjavaforma">
-								Prijavljeni ste kao: <b>'.$_SESSION['username'].'</b>
+								Prijavljeni ste kao: <b>'.htmlspecialchars($_SESSION['username'], ENT_QUOTES, 'UTF-8').'</b>
 								<input type="submit" name="odjava" value="ODJAVI SE">
 							</form>
 					  </div>';
@@ -93,7 +79,7 @@
 				    $_SESSION['password'] = $_REQUEST['lozinka'];
 					echo '<div id="prijava">
 								<form method="POST" action="index.php" id="odjavaforma">
-									Prijavljeni ste kao: <b>'.$_SESSION['username'].'</b>
+									Prijavljeni ste kao: <b>'.htmlspecialchars($_SESSION['username'], ENT_QUOTES, 'UTF-8').'</b>
 									<input type="submit" name="odjava" value="ODJAVI SE">
 								</form>
 					  		</div>';

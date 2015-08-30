@@ -19,6 +19,15 @@ html, body {
 	width: auto;
 }
 
+a {
+	color: white;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
 #logo {
 	width: auto;
 	height: auto;

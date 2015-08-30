@@ -39,10 +39,10 @@ function replaceContent() {
 	else if (window.location.hash == "#kontakt") {
 		url = "html/kontakt.html";
 	}
-	else if (window.location.hash != "#panel") {
+	/*else if (window.location.hash != "#panel") {
 		url = "html/clanakKomentari.html";
 		id = parseInt(window.location.hash.charAt(7));
-	}
+	}*/
 	ajax.open("GET", url, true);
 	ajax.send();
 }
@@ -53,6 +53,8 @@ function changeHash(hash) {
 
 function showLoginForm() {
 	if (document.getElementById("prijavaforma").style.display == "none") {
+		hideRegisterForm();
+		document.getElementById("dugmeRegistracija").value = "REGISTRACIJA";
 		document.getElementById("prijavaforma").style.display = "block";
 		document.getElementById("dugmePrijava").value = "SAKRIJ";
 	}
@@ -64,6 +66,8 @@ function showLoginForm() {
 
 function showRegisterForm() {
 	if (document.getElementById("regforma").style.display == "none") {
+		hideLoginForm();
+		document.getElementById("dugmePrijava").value = "PRIJAVA";
 		document.getElementById("regforma").style.display = "block";
 		document.getElementById("dugmeRegistracija").value = "SAKRIJ";
 	}
@@ -292,4 +296,31 @@ function izlistajKorisnike() {
 	}
 	ajax.open("GET", "php/korisniciREST.php", true);
 	ajax.send();
+}
+
+function posaljiLink() {
+	var ajax = new XMLHttpRequest();
+	ajax.onreadystatechange = function() {
+		if (ajax.readyState == 4 && ajax.status == 200) {
+			alert("Poruka sa linkom potvrde je poslana na vašu email adresu.");
+		}
+	}
+	var korisnik = document.getElementById("korisnickoime").value;
+	ajax.open("POST", "php/posaljiLink.php", true);
+	ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	ajax.send("korisnik=" + korisnik);
+}
+
+function resetujLozinku() {
+	var ajax = new XMLHttpRequest();
+	ajax.onreadystatechange = function() {
+		if (ajax.readyState == 4 && ajax.status == 200) {
+			alert("Lozinka resetovana.");
+		}
+	}
+	var password = document.getElementById("passwordproposal").value;
+	var encrypt = document.getElementById("encrypt").value;
+	ajax.open("POST", "php/resetujLozinku.php", true);
+	ajax.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	ajax.send("encrypt=" + encrypt + "&password=" + password);
 }

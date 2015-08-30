@@ -32,8 +32,8 @@
 				$newcomment->execute(array($user['korisnik'], $user['email'], $_POST['komentar'], date("Y-m-d H:i:s"), $_POST['vijest'], $user['id']));
 			}
 			else {
-				$newcomment = $connection->prepare("INSERT INTO komentari SET komentar=?, vijest=?");
-				$newcomment->execute(array($_POST['komentar'], $_POST['vijest']));
+				$newcomment = $connection->prepare("INSERT INTO komentari SET komentar=?, vrijeme=?, vijest=?");
+				$newcomment->execute(array($_POST['komentar'], date("Y-m-d H:i:s"), $_POST['vijest']));
 			}
 		}
 	}
